@@ -298,8 +298,7 @@ handle: (context, data) ->
                 salePrice = currencyGain/totalSold
                 warn "Sold a total of #{totalSold.toFixed(8)} #{i._pair[0].toUpperCase()} at #{salePrice.toFixed(8)} #{i._pair[1].toUpperCase()}"
                 warn "Finished Selling!"
-                storage.sold = true
-                storage.bought = false
+                storage.profitsbooked = true
                 storage.consecutiveBuySignals = 0
                 storage.consecutiveSellSignals = 0
                 storage.lastSellPrice = salePrice
