@@ -4,14 +4,14 @@ talib = require 'talib'
 params = require 'params'
 
 #BOT PARAMS
-NUMBER_OF_DAYS = params.add "Number of days used for calculations", 3
+NUMBER_OF_DAYS = params.add "Number of days used for calculations", 5
 CONSECUTIVE_BUY_SIGNALS = params.add "Consecutive buy signals required", 1
 CONSECUTIVE_SELL_SIGNALS = params.add "Consecutive sell signals required", 1
 
 #TP/SL
-BOOK_PROFIT_PCT = params.add "% gain before taking profits (set to 0 to disable)", 10
+BOOK_PROFIT_PCT = params.add "% gain before taking profits (set to 0 to disable)", 1
 PCT_TO_BOOK = params.add "% of holdings to sell when booking profits", 75
-STOP_LOSS_PCT = params.add "% loss before stop loss order (set to 0 to disable)", 5
+STOP_LOSS_PCT = params.add "% loss before stop loss order (set to 0 to disable)", 1
 
 #ORDER PARAMS
 PCT_OF_FUNDS = params.add "Percent of funds to use for orders", 100
@@ -184,6 +184,8 @@ handle: (context, data) ->
                 info "Finished Buying!"
                 storage.sold = false
                 storage.bought = true
+                storage.profitsbooked = false
+                storage.stoploss = false
                 storage.consecutiveBuySignals = 0
                 storage.consecutiveSellSignals = 0
                 storage.lastBuyPrice = salePrice
@@ -242,6 +244,8 @@ handle: (context, data) ->
                 warn "Finished Selling!"
                 storage.sold = true
                 storage.bought = false
+                storage.profitsbooked = false
+                storage.stoploss = false
                 storage.consecutiveBuySignals = 0
                 storage.consecutiveSellSignals = 0
                 storage.lastSellPrice = salePrice
@@ -299,6 +303,7 @@ handle: (context, data) ->
                 warn "Sold a total of #{totalSold.toFixed(8)} #{i._pair[0].toUpperCase()} at #{salePrice.toFixed(8)} #{i._pair[1].toUpperCase()}"
                 warn "Finished Selling!"
                 storage.profitsbooked = true
+                storage.stoploss = false
                 storage.consecutiveBuySignals = 0
                 storage.consecutiveSellSignals = 0
                 storage.lastSellPrice = salePrice
