@@ -5,17 +5,17 @@ params = require 'params'
 
 #BOT PARAMS
 NUMBER_OF_DAYS = params.add "Number of days used for calculations", 5
-CONSECUTIVE_BUY_SIGNALS = params.add "Consecutive buy signals required", 2
-CONSECUTIVE_SELL_SIGNALS = params.add "Consecutive sell signals required", 2
+CONSECUTIVE_BUY_SIGNALS = params.add "Consecutive buy signals required", 1
+CONSECUTIVE_SELL_SIGNALS = params.add "Consecutive sell signals required", 1
 
 #TP/SL
-BOOK_PROFIT_PCT = params.add "% gain before taking profits (set to 0 to disable)", 1
-PCT_TO_BOOK = params.add "% of holdings to sell when booking profits", 75
-STOP_LOSS_PCT = params.add "% loss before stop loss order (set to 0 to disable)", 1
+BOOK_PROFIT_PCT = params.add "% gain before taking profits (set to 0 to disable)", 5
+PCT_TO_BOOK = params.add "% of holdings to sell when booking profits", 100
+STOP_LOSS_PCT = params.add "% loss before stop loss order (set to 0 to disable)", 5
 
 #ORDER PARAMS
 PCT_OF_FUNDS = params.add "Percent of funds to use for orders", 100
-PCT_OF_SPLIT = params.add "Percent iceberg split", 25
+PCT_OF_SPLIT = params.add "Percent iceberg split", 100
 MINIMUM_ORDER_VALUE = params.add "Minimum order value (exchange threshold)", .001
 ORDER_TYPE = params.addOptions 'Global order type', ['market', 'limit', 'iceberg'], 'market'
 ORDER_PRICE = params.add 'Global trades at [Market Price x]', 1.00
@@ -319,6 +319,7 @@ handle: (context, data) ->
                     storage.bought = true
                 if PCT_TO_BOOK == 100
                     storage.sold = true
+                    storage.bought = false
 #stop loss sequence
             if (STOP_LOSS_PCT > 0 and !storage.sold and storage.bought and (storage.lastBuyPrice /( 1 + (STOP_LOSS_PCT/100))) >= i.price)
                 info "Stop loss initiated!"
