@@ -5,8 +5,8 @@ params = require 'params'
 
 #BOT PARAMS
 NUMBER_OF_DAYS = params.add "Number of days used for calculations", 5
-CONSECUTIVE_BUY_SIGNALS = params.add "Consecutive buy signals required", 1
-CONSECUTIVE_SELL_SIGNALS = params.add "Consecutive sell signals required", 1
+CONSECUTIVE_BUY_SIGNALS = params.add "Consecutive buy signals required", 2
+CONSECUTIVE_SELL_SIGNALS = params.add "Consecutive sell signals required", 2
 
 #TP/SL
 BOOK_PROFIT_PCT = params.add "% gain before taking profits (set to 0 to disable)", 1
@@ -401,11 +401,6 @@ handle: (context, data) ->
         info "Buy&Hold P/L: #{marketPL.toFixed(2)}%"
     else
         warn "Buy&Hold P/L: #{marketPL.toFixed(2)}%"
-
-    if (storage.sold)
-        info "Currently Sold"
-    if (storage.bought)
-        info "Currently Bought"
 
     info "Buys: #{storage.buys} Sells: #{storage.sells} Total Orders: #{storage.buys + storage.sells}"
     info "Wins: #{storage.wins} Losses: #{storage.losses} Total Trades: #{storage.wins + storage.losses}"
